@@ -1,4 +1,10 @@
 # Ancient Temple Escape
+A text-based RPG game written in Python.
+Run the game with:
+
+```bash
+py -m rpg_game
+```
 
 Ancient Temple Escape is a text-based RPG game written in Python.  
 The player explores an ancient temple, collects sacred items, fights enemies, and must defeat the final boss in order to escape.
