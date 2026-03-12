@@ -23,8 +23,24 @@ attack
 heal
 counter
 status
+inventory
+map
 help
 quit
+""")
+
+
+def show_map():
+    print("""
+Temple Map
+==========
+
+          [Treasure Room]
+                |
+[Entrance] -> [Dark Chamber] -> [Shadow Corridor]
+     |                                 |
+     v                                 v
+[Sacred Room] ------------------> [Exit Gate]
 """)
 
 
@@ -212,6 +228,12 @@ def process_command(move):
 
     elif move == "status":
         show_status()
+
+    elif move == "inventory":
+        print("Inventory:", inventory)
+
+    elif move == "map":
+        show_map()
 
     elif move == "help":
         show_instructions()
