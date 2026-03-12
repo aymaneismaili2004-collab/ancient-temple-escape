@@ -226,8 +226,8 @@ def process_command(move):
     elif move == "counter":
         process_counter()
 
-    elif move == "status":
-        show_status()
+   elif move == "status":
+    print("Status is displayed automatically each turn.")
 
     elif move == "inventory":
         print("Inventory:", inventory)
