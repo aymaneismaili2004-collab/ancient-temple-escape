@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rpg-game"
+version = "0.1.0"
+description = "Text-based RPG game"
+authors = [
+    {name = "Mohammed Aymane El Ismaili El Idrissi"}
+]
+requires-python = ">=3.10"
