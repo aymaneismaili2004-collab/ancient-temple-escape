@@ -48,3 +48,13 @@ ancient-temple-escape
     ├── __main__.py
     ├── data.py
     └── game.py
+   ```
+    ## Installation
+
+This project requires Python 3.10 or higher.
+
+Clone the repository:
+
+```bash
+git clone https://github.com/aymaneismaili2004-collab/ancient-temple-escape.git
+cd ancient-temple-escape
