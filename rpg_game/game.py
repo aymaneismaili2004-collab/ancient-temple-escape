@@ -66,6 +66,7 @@ get [item]
 attack
 heal
 counter
+open chest
 status
 inventory
 map
@@ -102,6 +103,9 @@ def show_status():
 
     if "item" in rooms[current_room]:
         print("You see:", rooms[current_room]["item"])
+
+    if "chest" in rooms[current_room] and rooms[current_room]["chest"] == "closed":
+        print("You see a treasure chest.")
 
     if "enemy" in rooms[current_room]:
         enemy = rooms[current_room]["enemy"]
@@ -253,6 +257,24 @@ def process_counter():
     check_enemy_defeat()
 
 
+def process_open_chest():
+    global potions, score
+
+    if "chest" not in rooms[current_room]:
+        print("There is no chest here.")
+        return
+
+    if rooms[current_room]["chest"] == "opened":
+        print("The chest is already open.")
+        return
+
+    rooms[current_room]["chest"] = "opened"
+    potions += 1
+    score += 10
+    print("You opened the chest and found a potion!")
+    print("Potion +1, Score +10")
+
+
 def process_command(move):
     global game_running
 
@@ -272,6 +294,9 @@ def process_command(move):
 
     elif move == "counter":
         process_counter()
+
+    elif move == "open chest":
+        process_open_chest()
 
     elif move == "status":
         print("Status is displayed automatically each turn.")

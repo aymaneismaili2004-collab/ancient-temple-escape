@@ -33,7 +33,8 @@ rooms = {
 
     "Treasure Room": {
         "west": "Shadow Corridor",
-        "item": "golden_idol"
+        "item": "golden_idol",
+        "chest": "closed"
     },
 
     "Exit Gate": {
