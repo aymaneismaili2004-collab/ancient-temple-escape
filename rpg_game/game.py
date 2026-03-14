@@ -2,13 +2,57 @@ from .data import rooms
 
 inventory = []
 current_room = "Entrance"
+
+player_name = ""
+player_class = ""
 player_health = 100
 max_health = 100
+player_attack = 15
+
 potions = 1
 score = 0
 turns = 0
 counter_mode = False
 game_running = True
+
+
+def create_character():
+    global player_name, player_class, player_health, max_health, player_attack
+
+    print("Create Your Character")
+    print("=====================")
+
+    player_name = input("Enter your character name: ").strip()
+    if player_name == "":
+        player_name = "Adventurer"
+
+    print("\nChoose your class:")
+    print("1. Warrior")
+    print("2. Mage")
+    print("3. Rogue")
+
+    choice = ""
+    while choice not in ["1", "2", "3"]:
+        choice = input("> ").strip()
+
+    if choice == "1":
+        player_class = "Warrior"
+        max_health = 120
+        player_health = 120
+        player_attack = 12
+    elif choice == "2":
+        player_class = "Mage"
+        max_health = 90
+        player_health = 90
+        player_attack = 18
+    else:
+        player_class = "Rogue"
+        max_health = 100
+        player_health = 100
+        player_attack = 15
+
+    print(f"\nWelcome, {player_name} the {player_class}!")
+    print(f"Health: {player_health} | Attack: {player_attack}\n")
 
 
 def show_instructions():
@@ -46,8 +90,11 @@ Temple Map
 
 def show_status():
     print("---------------------------")
+    print("Name:", player_name)
+    print("Class:", player_class)
     print("Location:", current_room)
     print("Health:", player_health, "/", max_health)
+    print("Attack:", player_attack)
     print("Potions:", potions)
     print("Score:", score)
     print("Turns:", turns)
@@ -164,7 +211,7 @@ def process_attack():
         return
 
     enemy = rooms[current_room]["enemy"]
-    damage = 15
+    damage = player_attack
     enemy["health"] -= damage
     print(f"You attacked {enemy['name']} for {damage} damage.")
     check_enemy_defeat()
@@ -226,8 +273,8 @@ def process_command(move):
     elif move == "counter":
         process_counter()
 
-   elif move == "status":
-    print("Status is displayed automatically each turn.")
+    elif move == "status":
+        print("Status is displayed automatically each turn.")
 
     elif move == "inventory":
         print("Inventory:", inventory)
@@ -249,6 +296,7 @@ def process_command(move):
 def play_game():
     global turns, game_running
 
+    create_character()
     show_instructions()
     show_room_intro()
 
@@ -273,7 +321,7 @@ def play_game():
             break
 
         if check_win():
-            print("You defeated the final boss and escaped the temple with all sacred items.")
+            print(f"You defeated the final boss and escaped the temple, {player_name}.")
             print("YOU WIN.")
             print("Final score:", score)
             print("Total turns:", turns)
