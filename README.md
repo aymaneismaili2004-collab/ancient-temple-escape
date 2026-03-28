@@ -103,7 +103,8 @@ ancient-temple-escape
     ├── data.py
     └── game.py
    ```
-    ## Installation
+    
+## Installation
 
 This project requires Python 3.10 or higher.
 
