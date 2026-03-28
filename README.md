@@ -29,6 +29,31 @@ Treasure chests now contain **random rewards**, such as:
 - extra potion
 - score bonus
 - health bonus
+## How to Play
+
+The objective of the game is to explore the ancient temple, collect all sacred items, defeat the enemies, and escape through the Exit Gate.
+
+### Available Commands
+
+- `go [direction]` → move between rooms
+- `get [item]` → collect an item
+- `attack` → attack the enemy in the room
+- `heal` → restore health using a potion
+- `counter` → reduce incoming damage and reflect part of it
+- `open chest` → open treasure chest for a random reward
+- `inventory` → show collected items
+- `map` → display the temple map
+- `help` → show available commands
+- `quit` → exit the game
+
+### Winning Condition
+
+To win the game, the player must:
+
+1. collect all sacred artifacts
+2. defeat the final boss
+3. reach the Exit Gate
+
 ## Project Overview
 
 This project is a command-line role-playing game. The game is played entirely in the terminal.  
