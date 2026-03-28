@@ -6,11 +6,29 @@ Run the game with:
 py -m rpg_game
 ```
 
-Ancient Temple Escape is a text-based RPG game written in Python.  
-The player explores an ancient temple, collects sacred items, fights enemies, and must defeat the final boss in order to escape.
+Ancient Temple Escape is a text-based RPG game written in Python.
+The player chooses a difficulty level, creates a character class, explores an ancient temple, collects sacred items, fights enemies, opens treasure chests with random rewards, and must defeat the final boss in order to escape.
 
 ---
+## Gameplay Overview
 
+At the start of the game, the player chooses a difficulty level:
+
+- Easy
+- Normal
+- Hard
+
+Then the player creates a character by choosing a class:
+
+- **Warrior** → high health, balanced attack
+- **Mage** → lower health, high attack
+- **Rogue** → balanced stats with a chance for critical hits
+
+Treasure chests now contain **random rewards**, such as:
+
+- extra potion
+- score bonus
+- health bonus
 ## Project Overview
 
 This project is a command-line role-playing game. The game is played entirely in the terminal.  
@@ -29,6 +47,11 @@ The main objective is to:
 - Room-based exploration
 - Inventory system
 - Multiple enemies
+- Character creation system
+- Multiple character classes
+- Difficulty selection
+- Critical hit mechanic
+- Random treasure chest rewards
 - Final boss battle
 - Healing and counter mechanics
 - Score system
