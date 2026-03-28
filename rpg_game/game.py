@@ -1,4 +1,9 @@
-from .data import rooms
+import copy
+import random
+
+from .data import rooms as base_rooms
+
+rooms = copy.deepcopy(base_rooms)
 
 inventory = []
 current_room = "Entrance"
@@ -9,11 +14,52 @@ player_health = 100
 max_health = 100
 player_attack = 15
 
+difficulty = "Normal"
+enemy_health_multiplier = 1.0
+enemy_attack_multiplier = 1.0
+
 potions = 1
 score = 0
 turns = 0
 counter_mode = False
 game_running = True
+
+
+def choose_difficulty():
+    global difficulty, enemy_health_multiplier, enemy_attack_multiplier
+
+    print("Choose Difficulty")
+    print("=================")
+    print("1. Easy")
+    print("2. Normal")
+    print("3. Hard")
+
+    choice = ""
+    while choice not in ["1", "2", "3"]:
+        choice = input("> ").strip()
+
+    if choice == "1":
+        difficulty = "Easy"
+        enemy_health_multiplier = 0.8
+        enemy_attack_multiplier = 0.8
+    elif choice == "2":
+        difficulty = "Normal"
+        enemy_health_multiplier = 1.0
+        enemy_attack_multiplier = 1.0
+    else:
+        difficulty = "Hard"
+        enemy_health_multiplier = 1.2
+        enemy_attack_multiplier = 1.2
+
+    scale_enemies()
+    print(f"\nDifficulty set to: {difficulty}\n")
+
+
+def scale_enemies():
+    for room in rooms.values():
+        if "enemy" in room:
+            room["enemy"]["health"] = int(room["enemy"]["health"] * enemy_health_multiplier)
+            room["enemy"]["attack"] = int(room["enemy"]["attack"] * enemy_attack_multiplier)
 
 
 def create_character():
@@ -93,6 +139,7 @@ def show_status():
     print("---------------------------")
     print("Name:", player_name)
     print("Class:", player_class)
+    print("Difficulty:", difficulty)
     print("Location:", current_room)
     print("Health:", player_health, "/", max_health)
     print("Attack:", player_attack)
@@ -216,6 +263,11 @@ def process_attack():
 
     enemy = rooms[current_room]["enemy"]
     damage = player_attack
+
+    if player_class == "Rogue" and random.random() < 0.25:
+        damage *= 2
+        print("Critical hit!")
+
     enemy["health"] -= damage
     print(f"You attacked {enemy['name']} for {damage} damage.")
     check_enemy_defeat()
@@ -258,7 +310,7 @@ def process_counter():
 
 
 def process_open_chest():
-    global potions, score
+    global potions, score, player_health
 
     if "chest" not in rooms[current_room]:
         print("There is no chest here.")
@@ -269,10 +321,52 @@ def process_open_chest():
         return
 
     rooms[current_room]["chest"] = "opened"
-    potions += 1
-    score += 10
-    print("You opened the chest and found a potion!")
-    print("Potion +1, Score +10")
+
+    reward = random.choice(["potion", "score", "health"])
+
+    if reward == "potion":
+        potions += 1
+        print("You opened the chest and found a potion!")
+        print("Potion +1")
+    elif reward == "score":
+        score += 15
+        print("You opened the chest and found an ancient treasure!")
+        print("Score +15")
+    else:
+        heal_amount = 15
+        player_health += heal_amount
+        if player_health > max_health:
+            player_health = max_health
+        print("You opened the chest and found a healing relic!")
+        print("Health +15")
+
+
+def show_final_victory():
+    print("\n==============================")
+    print("         VICTORY!")
+    print("==============================")
+    print(f"{player_name} the {player_class} has escaped the Ancient Temple!")
+    print("The sacred artifacts have been recovered.")
+    print("------------------------------")
+    print("Difficulty:", difficulty)
+    print("Final Score:", score)
+    print("Total Turns:", turns)
+    print("Items Collected:", inventory)
+    print("==============================\n")
+
+
+def show_final_defeat():
+    print("\n==============================")
+    print("          GAME OVER")
+    print("==============================")
+    print(f"{player_name} the {player_class} has fallen in the temple...")
+    print("The ancient temple remains cursed.")
+    print("------------------------------")
+    print("Difficulty:", difficulty)
+    print("Final Score:", score)
+    print("Total Turns:", turns)
+    print("Items Collected:", inventory)
+    print("==============================\n")
 
 
 def process_command(move):
@@ -321,6 +415,7 @@ def process_command(move):
 def play_game():
     global turns, game_running
 
+    choose_difficulty()
     create_character()
     show_instructions()
     show_room_intro()
@@ -340,14 +435,9 @@ def play_game():
             break
 
         if check_loss():
-            print("You were defeated... GAME OVER.")
-            print("Final score:", score)
-            print("Total turns:", turns)
+            show_final_defeat()
             break
 
         if check_win():
-            print(f"You defeated the final boss and escaped the temple, {player_name}.")
-            print("YOU WIN.")
-            print("Final score:", score)
-            print("Total turns:", turns)
+            show_final_victory()
             break
